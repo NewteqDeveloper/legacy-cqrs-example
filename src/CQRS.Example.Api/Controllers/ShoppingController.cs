@@ -11,9 +11,9 @@ namespace CQRS.Example.Api.Controllers
 {
     public class ShoppingController : BaseController
     {
-        private readonly IShoppingService service;
+        private readonly IShoppingQueryService service;
 
-        public ShoppingController(IShoppingService service)
+        public ShoppingController(IShoppingQueryService service)
         {
             this.service = service;
         }

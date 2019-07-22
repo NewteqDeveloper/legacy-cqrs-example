@@ -4,9 +4,8 @@ using CQRS.Example.Api.Domain;
 
 namespace CQRS.Example.Api.Services
 {
-    public interface IShoppingService
+    public interface IShoppingQueryService
     {
         IList<Customer> GetAllCustomers();
-        Task AddNewCustomer(Customer customer);
     }
 }
