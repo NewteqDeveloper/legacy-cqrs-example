@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using CQRS.Example.Api.Database;
+using CQRS.Example.Api.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -59,6 +60,8 @@ namespace CQRS.Example.Api
         private void ConfigureDi(IServiceCollection services)
         {
             services.AddSingleton<IRavenStore, RavenStore>();
+            services.AddSingleton<ITestDataService, TestDataService>();
+            services.AddTransient<IShoppingService, ShoppingService>();
         }
 
         private void ConfigureOptions(IServiceCollection services)
