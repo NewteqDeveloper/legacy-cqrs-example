@@ -36,10 +36,19 @@ namespace CQRS.Example.Api.Controllers
         }
 
         [HttpPost]
-        [Route("customer/new")]
+        [Route("customer/await/new")]
         public async Task<IActionResult> AddNewCustomer([FromBody] Customer customer)
         {
-            return this.Accepted();
+            await this.service.AddNewCustomer(customer);
+            return Accepted();
+        }
+
+        [HttpPost]
+        [Route("customer/async/new")]
+        public IActionResult AddNewCustomer2([FromBody] Customer customer)
+        {
+            this.service.AddNewCustomer(customer);
+            return Accepted();
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using CQRS.Example.Api.Database;
 using CQRS.Example.Api.Domain;
 using CQRS.Example.Api.Memory;
+using Raven.Client.Documents;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace CQRS.Example.Api.Services
@@ -37,7 +39,8 @@ namespace CQRS.Example.Api.Services
         {
             using (var session = this.ravenStore.DocumentStore.OpenAsyncSession())
             {
-                var existingCustomer = await session.LoadAsync<Customer>(customer.CustomerId);
+                var query = await session.Query<Customer>().ToListAsync();
+                var existingCustomer = query.FirstOrDefault(x => x.CustomerId == customer.CustomerId);
                 if (existingCustomer == null)
                 {
                     await session.StoreAsync(customer);
