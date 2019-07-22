@@ -9,8 +9,6 @@ namespace CQRS.Example.Api.Database
 {
     public interface IRavenStore
     {
-        IDocumentStore documentStore { get; set; }
-
-        IDocumentSession Session { get; }
+        IDocumentStore DocumentStore { get; set; }
     }
 }

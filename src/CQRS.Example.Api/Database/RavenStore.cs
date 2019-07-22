@@ -14,22 +14,7 @@ namespace CQRS.Example.Api.Database
 {
     public class RavenStore : IRavenStore
     {
-        public IDocumentStore documentStore { get; set; }
-
-        public IDocumentSession Session
-        {
-            get
-            {
-                if (session == null)
-                {
-                    this.session = this.documentStore.OpenSession();
-                }
-
-                return this.session;
-            }
-        }
-
-        private IDocumentSession session = null;
+        public IDocumentStore DocumentStore { get; set; }
 
         public RavenStore()
         {
@@ -40,7 +25,7 @@ namespace CQRS.Example.Api.Database
         // https://ravendb.net/docs/article-page/4.1/csharp/client-api/creating-document-store
         private void CreateDocumentStore()
         {
-            this.documentStore = new DocumentStore
+            this.DocumentStore = new DocumentStore
             {
                 Urls = new string[] { "http://127.0.0.1:8080" },
                 Database = "TestDb",
@@ -49,25 +34,8 @@ namespace CQRS.Example.Api.Database
 
                 }
             };
-            this.documentStore.Initialize();
-            this.EnsureDatabaseExists(this.documentStore, "TestDb");
-        }
-
-        // Creating a database
-        // https://ravendb.net/docs/article-page/4.1/csharp/client-api/operations/server-wide/create-database
-        private void EnsureDatabaseExists(IDocumentStore store, string databaseName)
-        {
-            if (databaseName.IsNullOrEmpty())
-                throw new ArgumentException("Value cannot be null or whitespace.", nameof(databaseName));
-
-            try
-            {
-                store.Maintenance.ForDatabase(databaseName).Send(new GetStatisticsOperation());
-            }
-            catch (DatabaseDoesNotExistException)
-            {
-                store.Maintenance.Server.Send(new CreateDatabaseOperation(new DatabaseRecord(databaseName)));
-            }
+            this.DocumentStore.Initialize();
+            this.DocumentStore.EnsureDatabaseExists("TestDb");
         }
     }
 }
