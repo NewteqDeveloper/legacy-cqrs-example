@@ -36,6 +36,8 @@ namespace CQRS.Example.Api.Database
             this.CreateDocumentStore();
         }
 
+        // Creating the document store
+        // https://ravendb.net/docs/article-page/4.1/csharp/client-api/creating-document-store
         private void CreateDocumentStore()
         {
             this.documentStore = new DocumentStore
@@ -51,6 +53,8 @@ namespace CQRS.Example.Api.Database
             this.EnsureDatabaseExists(this.documentStore, "TestDb");
         }
 
+        // Creating a database
+        // https://ravendb.net/docs/article-page/4.1/csharp/client-api/operations/server-wide/create-database
         private void EnsureDatabaseExists(IDocumentStore store, string databaseName)
         {
             if (databaseName.IsNullOrEmpty())
