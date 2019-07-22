@@ -61,8 +61,8 @@ namespace CQRS.Example.Api
         {
             services.AddSingleton<IRavenStore, RavenStore>();
             services.AddSingleton<ITestDataService, TestDataService>();
-            services.AddTransient<IShoppingQueryService, ShoppingQueryService>();
-            services.AddTransient<IShoppingCommandService, ShoppingCommandService>();
+            services.AddSingleton<IShoppingQueryService, ShoppingQueryService>();
+            services.AddSingleton<IShoppingCommandService, ShoppingCommandService>();
             services.AddSingleton<INotificationService, NotificationService>();
         }
 
