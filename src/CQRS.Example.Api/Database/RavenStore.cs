@@ -1,4 +1,5 @@
-﻿using Raven.Client.Documents;
+﻿using Microsoft.Extensions.Options;
+using Raven.Client.Documents;
 using Raven.Client.Documents.Operations;
 using Raven.Client.Documents.Session;
 using Raven.Client.Exceptions;
@@ -16,26 +17,26 @@ namespace CQRS.Example.Api.Database
     {
         public IDocumentStore DocumentStore { get; set; }
 
-        public RavenStore()
+        public RavenStore(IOptions<RavenDbSettings> ravenDbSettings)
         {
-            this.CreateDocumentStore();
+            this.CreateDocumentStore(ravenDbSettings.Value);
         }
 
         // Creating the document store
         // https://ravendb.net/docs/article-page/4.1/csharp/client-api/creating-document-store
-        private void CreateDocumentStore()
+        private void CreateDocumentStore(RavenDbSettings settings)
         {
             this.DocumentStore = new DocumentStore
             {
-                Urls = new string[] { "http://127.0.0.1:8080" },
-                Database = "TestDb",
+                Urls = settings.Urls,
+                Database = settings.DatabaseName,
                 Conventions =
                 {
 
                 }
             };
             this.DocumentStore.Initialize();
-            this.DocumentStore.EnsureDatabaseExists("TestDb");
+            this.DocumentStore.EnsureDatabaseExists(settings.DatabaseName);
         }
     }
 }

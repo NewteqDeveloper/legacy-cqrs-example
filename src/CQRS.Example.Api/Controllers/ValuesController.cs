@@ -24,8 +24,12 @@ namespace CQRS.Example.Api.Controllers
                 TestString = "String",
                 TestInt = 1,
             };
-            this.ravenStore.Session.Store(test);
-            this.ravenStore.Session.SaveChanges();
+
+            using(var session = this.ravenStore.DocumentStore.OpenSession())
+            {
+                session.Store(test);
+                session.SaveChanges();
+            }
             return Ok(new string[] { "value1", "value2" });
         }
 

@@ -36,7 +36,8 @@ namespace CQRS.Example.Api
                 });
             });
 
-            services.AddSingleton<IRavenStore>(raven => new RavenStore());
+            this.ConfigureDi(services);
+            this.ConfigureOptions(services);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -53,6 +54,16 @@ namespace CQRS.Example.Api
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger API");
             });
+        }
+
+        private void ConfigureDi(IServiceCollection services)
+        {
+            services.AddSingleton<IRavenStore, RavenStore>();
+        }
+
+        private void ConfigureOptions(IServiceCollection services)
+        {
+            services.Configure<RavenDbSettings>(this.Configuration.GetSection("Raven"));
         }
     }
 }
