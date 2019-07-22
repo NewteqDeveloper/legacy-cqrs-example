@@ -29,6 +29,11 @@ namespace CQRS.Example.Api.Services
 
         private void CreateCustomers(IDocumentSession session)
         {
+            if (session.Query<Customer>().Any())
+            {
+                return;
+            }
+
             session.Store(new Customer
             {
                 CustomerId = "920608",
