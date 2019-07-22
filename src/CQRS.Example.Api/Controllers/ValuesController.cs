@@ -9,34 +9,10 @@ namespace CQRS.Example.Api.Controllers
 {
     public class ValuesController : BaseController
     {
-        private readonly IRavenStore ravenStore;
-
-        public ValuesController(IRavenStore ravenStore)
-        {
-            this.ravenStore = ravenStore;
-        }
-
         [HttpGet]
         public ActionResult Get()
         {
-            var test = new TestClass
-            {
-                TestString = "String",
-                TestInt = 1,
-            };
-
-            using(var session = this.ravenStore.DocumentStore.OpenSession())
-            {
-                session.Store(test);
-                session.SaveChanges();
-            }
             return Ok(new string[] { "value1", "value2" });
-        }
-
-        public class TestClass
-        {
-            public string TestString { get; set; }
-            public int TestInt { get; set; }
         }
     }
 }
