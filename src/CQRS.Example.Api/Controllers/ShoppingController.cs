@@ -11,11 +11,13 @@ namespace CQRS.Example.Api.Controllers
 {
     public class ShoppingController : BaseController
     {
-        private readonly IShoppingQueryService service;
+        private readonly IShoppingQueryService queryService;
+        private readonly IShoppingCommandService commandService;
 
-        public ShoppingController(IShoppingQueryService service)
+        public ShoppingController(IShoppingQueryService queryService, IShoppingCommandService commandService)
         {
-            this.service = service;
+            this.queryService = queryService;
+            this.commandService = commandService;
         }
 
         [HttpGet]
@@ -24,7 +26,7 @@ namespace CQRS.Example.Api.Controllers
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
-            var customers = this.service.GetAllCustomers();
+            var customers = this.queryService.GetAllCustomers();
             stopwatch.Stop();
 
             var result = new TimedResult<IList<Customer>>
@@ -39,7 +41,7 @@ namespace CQRS.Example.Api.Controllers
         [Route("customer/await/new")]
         public async Task<IActionResult> AddNewCustomer([FromBody] Customer customer)
         {
-            await this.service.AddNewCustomer(customer);
+            await this.commandService.AddNewCustomer(customer);
             return Accepted();
         }
 
@@ -47,7 +49,7 @@ namespace CQRS.Example.Api.Controllers
         [Route("customer/async/new")]
         public IActionResult AddNewCustomer2([FromBody] Customer customer)
         {
-            this.service.AddNewCustomer(customer);
+            this.commandService.AddNewCustomer(customer);
             return Accepted();
         }
     }
