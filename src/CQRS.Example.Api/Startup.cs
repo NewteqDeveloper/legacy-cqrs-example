@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using CQRS.Example.Api.Database;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -34,6 +35,8 @@ namespace CQRS.Example.Api
                     Version = "v1"
                 });
             });
+
+            services.AddSingleton<IRavenStore>(raven => new RavenStore());
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
