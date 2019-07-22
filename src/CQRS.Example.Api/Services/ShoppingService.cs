@@ -33,5 +33,18 @@ namespace CQRS.Example.Api.Services
             return MemoryDb.Database.Customers;
         }
 
+        public async Task AddNewCustomer(Customer customer)
+        {
+            using (var session = this.ravenStore.DocumentStore.OpenAsyncSession())
+            {
+                var existingCustomer = await session.LoadAsync<Customer>(customer.CustomerId);
+                if (existingCustomer == null)
+                {
+                    await session.StoreAsync(customer);
+                    this.isStaleData = true;
+                    await session.SaveChangesAsync();
+                }
+            }
+        }
     }
 }

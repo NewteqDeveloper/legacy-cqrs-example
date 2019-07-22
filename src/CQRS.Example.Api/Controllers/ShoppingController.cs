@@ -19,6 +19,7 @@ namespace CQRS.Example.Api.Controllers
         }
 
         [HttpGet]
+        [Route("customer/all")]
         public IActionResult AllCustomers()
         {
             var stopwatch = new Stopwatch();
@@ -32,6 +33,13 @@ namespace CQRS.Example.Api.Controllers
                 LoadResultsMs = stopwatch.ElapsedMilliseconds,
             };
             return Ok(result);
+        }
+
+        [HttpPost]
+        [Route("customer/new")]
+        public async Task<IActionResult> AddNewCustomer([FromBody] Customer customer)
+        {
+            return this.Accepted();
         }
     }
 }
