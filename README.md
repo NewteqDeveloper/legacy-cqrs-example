@@ -1,3 +1,6 @@
+# Migrated
+Moved to: https://codeberg.org/newteq/sample-cqrs-ravendb
+
 # About
 
 This is an example project that is starting out with integrating into RavenDB 4 in ASP.NET Core. After that, it will have a basic implementation of CQRS. See the plan below for more details
